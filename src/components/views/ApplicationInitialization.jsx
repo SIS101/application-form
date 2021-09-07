@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import FormData from 'form-data';
 import SDK from '../custom_modules/ApplicationSDK';
+import RenderResponse from '../RenderResponse';
 
 class ApplicationInitialization extends React.Component {
     constructor(props) {
@@ -9,21 +10,22 @@ class ApplicationInitialization extends React.Component {
         this.state = {
             username: '',
             email: '',
-            password: ''
+            password: '',
+            response: null
         };
         this.handle_change = this.handle_change.bind(this);
         this.handle_submit = this.handle_submit.bind(this);
         this.sdk = new SDK();
     }
     handle_submit(event){
-        alert("You are trying to submit the form");
+        event.preventDefault();
         //var FormData = require('form-data');
         var data = new FormData();
         data.append('username', this.state.username);
         data.append('email', this.state.email);
         data.append('password', this.state.password);
-        this.sdk.initializeApplication(data);
-        event.preventDefault();
+        var response = this.sdk.initializeApplication(data);
+        this.setState({response: response})
     }
     handle_change(event){
         switch (event.target.id) {
@@ -41,6 +43,7 @@ class ApplicationInitialization extends React.Component {
         }
     }
     render(){
+        var response = this.state.response;
         return(
             <div className="card">
                 <div className="card-content">
@@ -62,6 +65,7 @@ class ApplicationInitialization extends React.Component {
                             <button className="btn">Proceed</button>
                         </div>
                     </form>
+                    <RenderResponse response={response} />
                 </div>
                 <div className="card-action">
                 <Link className="btn" to="/">Exit</Link>

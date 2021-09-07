@@ -3,11 +3,15 @@ var axios = require('axios');
 class SDK{
     constructor(auth=null){
         this.auth = auth;
-        this.baseUrl = "https://kihsr.ac.zm/public-api/public/api";
+        this.baseUrl = "http://192.168.0.105/public-api/public/api";
+    }
+
+    login(formData){
+        return this.sendRequest("POST", "/login", formData);
     }
 
     initializeApplication(formData){
-        this.sendRequest("POST", "/application", formData);
+        return this.sendRequest("POST", "/application", formData);
     }
 
     sendRequest(method,end_point,data){
@@ -22,11 +26,17 @@ class SDK{
             url: this.baseUrl+endpoint,
             data : data
         };
+        var res = null;
         axios(config).then(function(response){
-            console.log(JSON.stringify(response.data));
+            res = response.data;
         }).catch(function(error){
-            console.log(error);
+            if(error.response.data){
+                res = error.response.data;
+            } else {
+                console.log(error);
+            }
         });
+        return res;
     }
 }
 
