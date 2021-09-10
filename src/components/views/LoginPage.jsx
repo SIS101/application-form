@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import RenderResponse from "../RenderResponse";
 import axios from "axios";
+import { baseUrl } from "../custom_modules/api_config";
 
 class LoginPage extends React.Component {
     constructor(props){
@@ -10,8 +11,7 @@ class LoginPage extends React.Component {
             response: null,
             email: '',
             password: '',
-            laoding: false,
-            response: null
+            laoding: false
         }
         this.handle_change = this.handle_change.bind(this);
         this.handle_submit = this.handle_submit.bind(this);
@@ -38,17 +38,21 @@ class LoginPage extends React.Component {
         data.append('email', this.state.email);
         data.append('password', this.state.password);
         var p = this;
-        axios.post('http://192.168.0.105/public-api/public/api/login', data).then(function(response){
+        axios.post(baseUrl+'/login', data).then(function(response){
             p.setState({response: response.data, loading: false});
+            p.handleResponse();
         }).catch(function(error){
             if(error.response){
-                console.log(error.response);
                 p.setState({response: error.response.data, loading: false});
+                p.handleResponse();
+            } else if(error.request){
+                console.log(error);
+                alert(error.message);
+                p.setState({loading: false});
             } else {
                 alert(error.message);
                 p.setState({loading: false});
             }
-            //p.setState({response: error.response, loading: false});
         });
     }
 
@@ -64,7 +68,6 @@ class LoginPage extends React.Component {
 
     render(){
         var response = this.state.response;
-        this.handleResponse();
         return(
             <div className="card">
                 <div className="card-content">
