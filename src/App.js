@@ -13,6 +13,7 @@ import ApplicationPage3 from './components/views/ApplicationPage3';
 import ApplicationPage4 from './components/views/ApplicationPage4';
 import ApplicationPage5 from './components/views/ApplicationPage5';
 import ApplicationPage6 from './components/views/ApplicationPage6';
+import Review from './components/views/ApplicationReview';
 
 class App extends React.Component{
 
@@ -30,6 +31,7 @@ class App extends React.Component{
             <Route exact path='/page/4' component={ApplicationPage4} />
             <Route exact path='/page/5' component={ApplicationPage5} />
             <Route exact path='/page/6' component={ApplicationPage6} />
+            <Route exact path='/review' component={Review} />
             <Route component={NotFound} />
           </Switch>
         </div>

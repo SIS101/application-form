@@ -17,13 +17,54 @@ class ApplicationPage1 extends React.Component {
             gender: '',
             marital_status: '',
             national_id_or_passport: '',
-            response: false
+            response: false,
+            loading: false
         };
         this.handle_change = this.handle_change.bind(this);
         this.handle_submit = this.handle_submit.bind(this);
 
         this.auth = sessionStorage.getItem('api_token') || null;
         this.response = null;
+        this.application = null;
+    }
+
+    getApplication(){
+        var p = this;
+        p.setState({loading: true});
+        axios.get(baseUrl+'/application/get?api_token='+this.auth).then(function(response){
+            p.application = response.data;
+            p.setState({response: true,loading: false});
+            p.loadApplication();
+        }).catch(function(error){
+            if(error.response){
+                p.application = error.response.data;
+                p.setState({response: true,loading: false});
+                p.setState({loading: false});
+            } else if(error.request){
+                alert(error.message);
+                p.setState({loading: false});
+            } else {
+                alert(error.message);
+                p.setState({loading: false});
+            }
+        });
+    }
+
+    loadApplication(){
+        this.setState({
+            first_name: this.application.data.first_name,
+            last_name: this.application.data.last_name,
+            date_of_birth: this.application.data.date_of_birth,
+            place_of_birth: this.application.data.place_of_birth,
+            nationality: this.application.data.nationality,
+            gender: this.application.data.gender,
+            marital_status: this.application.data.marital_status,
+            national_id_or_passport: this.application.data.national_id_or_passport
+        });
+    }
+
+    componentDidMount(){
+        this.getApplication();
     }
 
     handle_submit(event){
@@ -123,55 +164,56 @@ class ApplicationPage1 extends React.Component {
                     </div>
                 </div>
             );
+        } else {
+            return(
+                <div className="card">
+                    <div className="card-content">
+                        <span className="card-title">Online Application Personal Information</span>
+                        <form onSubmit={this.handle_submit}>
+                            <div className="row">
+                                <div className="input-field col s12">
+                                    <input onChange={this.handle_change} value={this.state.first_name} id="first_name" type="text" className="validate" />
+                                    <label htmlFor="first_name">First Name</label>
+                                </div>
+                                <div className="input-field col s12">
+                                    <input onChange={this.handle_change} value={this.state.last_name} id="last_name" type="text" className="validate" />
+                                    <label htmlFor="last_name">Last Name</label>
+                                </div>
+                                <div className="input-field col s12">
+                                    <input onChange={this.handle_change} value={this.state.date_of_birth} id="date_of_birth" type="date" className="validate" />
+                                    <label htmlFor="date_of_birth">Date of Birth</label>
+                                </div>
+                                <div className="input-field col s12">
+                                    <input onChange={this.handle_change} value={this.state.place_of_birth} id="place_of_birth" type="text" className="validate" />
+                                    <label htmlFor="place_of_birth">Place of Birth</label>
+                                </div>
+                                <div className="input-field col s12">
+                                    <input onChange={this.handle_change} value={this.state.nationality} id="nationality" type="text" className="validate" />
+                                    <label htmlFor="nationality">Nationality</label>
+                                </div>
+                                <div className="input-field col s12">
+                                    <input onChange={this.handle_change} value={this.state.gender} id="gender" type="text" className="validate" />
+                                    <label htmlFor="gender">Gender</label>
+                                </div>
+                                <div className="input-field col s12">
+                                    <input onChange={this.handle_change} value={this.state.marital_status} id="marital_status" type="text" className="validate" />
+                                    <label htmlFor="marital_status">Marital Status</label>
+                                </div>
+                                <div className="input-field col s12">
+                                    <input onChange={this.handle_change} value={this.state.national_id_or_passport} id="national_id_or_passport" type="text" className="validate" />
+                                    <label htmlFor="national_id_or_passport">National ID or Passport</label>
+                                </div>
+                                <button className="btn">Proceed</button>
+                            </div>
+                        </form>
+                        <RenderResponse isLoading={this.state.loading} response={response} />
+                    </div>
+                    <div className="card-action">
+                    <Link className="btn" to="/">Exit</Link>
+                    </div>
+                </div>
+            );
         }
-        return(
-            <div className="card">
-                <div className="card-content">
-                    <span className="card-title">Online Application Personal Information</span>
-                    <form onSubmit={this.handle_submit}>
-                        <div className="row">
-                            <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.first_name} id="first_name" type="text" className="validate" />
-                                <label htmlFor="first_name">First Name</label>
-                            </div>
-                            <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.last_name} id="last_name" type="text" className="validate" />
-                                <label htmlFor="last_name">Last Name</label>
-                            </div>
-                            <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.date_of_birth} id="date_of_birth" type="date" className="validate" />
-                                <label htmlFor="date_of_birth">Date of Birth</label>
-                            </div>
-                            <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.place_of_birth} id="place_of_birth" type="text" className="validate" />
-                                <label htmlFor="place_of_birth">Place of Birth</label>
-                            </div>
-                            <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.nationality} id="nationality" type="text" className="validate" />
-                                <label htmlFor="nationality">Nationality</label>
-                            </div>
-                            <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.gender} id="gender" type="text" className="validate" />
-                                <label htmlFor="gender">Gender</label>
-                            </div>
-                            <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.marital_status} id="marital_status" type="text" className="validate" />
-                                <label htmlFor="marital_status">Marital Status</label>
-                            </div>
-                            <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.national_id_or_passport} id="national_id_or_passport" type="text" className="validate" />
-                                <label htmlFor="national_id_or_passport">National ID or Passport</label>
-                            </div>
-                            <button className="btn">Proceed</button>
-                        </div>
-                    </form>
-                    <RenderResponse isLoading={this.state.loading} response={response} />
-                </div>
-                <div className="card-action">
-                <Link className="btn" to="/">Exit</Link>
-                </div>
-            </div>
-        );
     }
 }
 
