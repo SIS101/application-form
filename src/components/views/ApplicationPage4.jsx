@@ -4,6 +4,7 @@ import FormData from 'form-data';
 import RenderResponse from '../RenderResponse';
 import axios from 'axios';
 import { baseUrl } from '../custom_modules/api_config';
+import M from 'materialize-css/dist/js/materialize';
 
 class ApplicationPage4 extends React.Component {
     constructor(props) {
@@ -21,6 +22,48 @@ class ApplicationPage4 extends React.Component {
 
         this.auth = sessionStorage.getItem('api_token') || null;
         this.response = null;
+        this.application = null;
+    }
+
+    getApplication(){
+        var p = this;
+        p.setState({loading: true});
+        axios.get(baseUrl+'/application/get?api_token='+this.auth).then(function(response){
+            p.application = response.data;
+            p.setState({response: true,loading: false});
+            p.loadApplication();
+        }).catch(function(error){
+            if(error.response){
+                p.application = error.response.data;
+                p.setState({response: true,loading: false});
+                p.setState({loading: false});
+            } else if(error.request){
+                alert(error.message);
+                p.setState({loading: false});
+            } else {
+                alert(error.message);
+                p.setState({loading: false});
+            }
+        });
+    }
+
+    loadApplication(){
+        if(this.application){
+            if(this.application.success){
+                this.setState({
+                    secondary_school_attended: this.application.data.secondary_school_attended,
+                    english_language: this.application.data.english_language,
+                    mathematics: this.application.data.mathematics,
+                    biology: this.application.data.biology,
+                    science: this.application.data.science
+                });
+            }
+        }
+    }
+
+    componentDidMount(){
+        this.getApplication();
+        M.updateTextFields();
     }
 
     handle_submit(event){
@@ -116,23 +159,23 @@ class ApplicationPage4 extends React.Component {
                     <form onSubmit={this.handle_submit}>
                         <div className="row">
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.secondary_school_attended} id="secondary_school_attended" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.secondary_school_attended} id="secondary_school_attended" type="text" className="validate" required />
                                 <label htmlFor="secondary_school_attended">Secondary School Results</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.english_language} id="english_language" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.english_language} id="english_language" type="text" className="validate" required />
                                 <label htmlFor="english_language">English language</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.mathematics} id="mathematics" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.mathematics} id="mathematics" type="text" className="validate" required />
                                 <label htmlFor="mathematics">Mathematics</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.biology} id="biology" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.biology} id="biology" type="text" className="validate" required />
                                 <label htmlFor="biology">Biology</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.science} id="science" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.science} id="science" type="text" className="validate" required />
                                 <label htmlFor="science">Science</label>
                             </div>
                             <button className="btn">Proceed</button>
@@ -141,7 +184,7 @@ class ApplicationPage4 extends React.Component {
                     <RenderResponse isLoading={this.state.loading} response={response} />
                 </div>
                 <div className="card-action">
-                <Link className="btn" to="/">Exit</Link>
+                <Link className="btn" to="/">Back</Link>
                 </div>
             </div>
         );

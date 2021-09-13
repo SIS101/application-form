@@ -1,5 +1,4 @@
 import React from "react";
-import M from 'materialize-css/dist/js/materialize';
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../custom_modules/api_config";
@@ -42,8 +41,7 @@ class Review extends React.Component {
         p.setState({loading: true});
         axios.get(baseUrl+'/application/submit?api_token='+this.auth).then(function(response){
             if(response.data.success){
-                alert(response.data.message);
-                p.setState({loading: false});
+                p.props.history.push('/');
             } else {
                 alert(response.data.message);
                 p.setState({loading: false});
@@ -54,8 +52,10 @@ class Review extends React.Component {
                 p.setState({loading: false});
             } else if(error.request){
                 alert(error.message);
+                p.setState({loading: false});
             } else {
                 alert(error.message);
+                p.setState({loading: false});
             }
         });
     }
@@ -116,7 +116,9 @@ class Review extends React.Component {
                                                 <td>{this.response.data.date_of_birth}</td>
                                             </tr>
                                         </tbody>
-                                    </table><br />
+                                    </table>
+                                    <Link to="/page/1" className="btn">Edit</Link>
+                                    <hr />
 
                                     <table className="striped">
                                         <caption>Address</caption>
@@ -134,7 +136,8 @@ class Review extends React.Component {
                                                 <td>{this.response.data.physical_address}</td>
                                             </tr>
                                         </tbody>
-                                    </table><br />
+                                    </table>
+                                    <Link to="/page/2" className="btn">Edit</Link><hr />
 
                                     <table className="striped">
                                         <caption>Admission</caption>
@@ -152,7 +155,8 @@ class Review extends React.Component {
                                                 <td>{this.response.data.second_choice}</td>
                                             </tr>
                                         </tbody>
-                                    </table><br />
+                                    </table>
+                                    <Link to="/page/3" className="btn">Edit</Link><hr />
 
                                     <table className="striped">
                                         <caption>Grade 12 Results</caption>
@@ -169,8 +173,18 @@ class Review extends React.Component {
                                                 <th>Mathematics</th>
                                                 <td>{this.response.data.mathematics}</td>
                                             </tr>
+                                            <tr>
+                                                <th>Biology</th>
+                                                <td>{this.response.data.biology}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Science</th>
+                                                <td>{this.response.data.science}</td>
+                                            </tr>
                                         </tbody>
-                                    </table><br />
+                                    </table>
+                                    <Link to="/page/4" className="btn">Edit</Link>
+                                    <hr />
 
                                     <table className="striped">
                                         <caption>Documents</caption>
@@ -188,7 +202,8 @@ class Review extends React.Component {
                                                 <td>{this.response.data.passport_photo}</td>
                                             </tr>
                                         </tbody>
-                                    </table><br />
+                                    </table>
+                                    <Link to="/page/5" className="btn">Edit</Link><hr />
 
                                     <table className="striped">
                                         <caption>Next of kin</caption>
@@ -206,11 +221,12 @@ class Review extends React.Component {
                                                 <td>{this.response.data.next_of_kin_phone}</td>
                                             </tr>
                                         </tbody>
-                                    </table><br />
+                                    </table>
+                                    <Link to="/page/6" className="btn">Edit</Link><hr />
                                     <center><button onClick={this.submitApplication} className="btn">Submit Application</button></center>
                                 </div>
                                 <div className="card-action">
-                                <Link className="btn" to="/">Exit</Link>
+                                <Link className="btn" to="/">Back</Link>
                                 </div>
                             </div>
                         );

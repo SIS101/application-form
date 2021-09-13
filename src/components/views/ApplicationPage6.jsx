@@ -4,6 +4,7 @@ import FormData from 'form-data';
 import RenderResponse from '../RenderResponse';
 import axios from 'axios';
 import { baseUrl } from '../custom_modules/api_config';
+import M from 'materialize-css/dist/js/materialize';
 
 class ApplicationPage6 extends React.Component {
     constructor(props) {
@@ -23,6 +24,50 @@ class ApplicationPage6 extends React.Component {
 
         this.auth = sessionStorage.getItem('api_token') || null;
         this.response = null;
+        this.application = null;
+    }
+
+    getApplication(){
+        var p = this;
+        p.setState({loading: true});
+        axios.get(baseUrl+'/application/get?api_token='+this.auth).then(function(response){
+            p.application = response.data;
+            p.setState({response: true,loading: false});
+            p.loadApplication();
+        }).catch(function(error){
+            if(error.response){
+                p.application = error.response.data;
+                p.setState({response: true,loading: false});
+                p.setState({loading: false});
+            } else if(error.request){
+                alert(error.message);
+                p.setState({loading: false});
+            } else {
+                alert(error.message);
+                p.setState({loading: false});
+            }
+        });
+    }
+
+    loadApplication(){
+        if(this.application){
+            if(this.application.success){
+                this.setState({
+                    next_of_kin_full_name: this.application.data.next_of_kin_full_name,
+                    next_of_kin_email: this.application.data.next_of_kin_email,
+                    next_of_kin_phone: this.application.data.next_of_kin_phone,
+                    next_of_kin_province: this.application.data.next_of_kin_province,
+                    next_of_kin_town: this.application.data.next_of_kin_town,
+                    next_of_kin_physical_address: this.application.data.next_of_kin_physical_address,
+                    next_of_kin_postal_address: this.application.data.next_of_kin_postal_address
+                });
+            }
+        }
+    }
+
+    componentDidMount(){
+        this.getApplication();
+        M.updateTextFields();
     }
 
     handle_submit(event){
@@ -126,31 +171,31 @@ class ApplicationPage6 extends React.Component {
                     <form onSubmit={this.handle_submit}>
                         <div className="row">
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.next_of_kin_full_name} id="next_of_kin_full_name" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.next_of_kin_full_name} id="next_of_kin_full_name" type="text" className="validate" required />
                                 <label htmlFor="next_of_kin_full_name">Next of kin full name</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.next_of_kin_email} id="next_of_kin_email" type="email" className="validate" />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.next_of_kin_email} id="next_of_kin_email" type="email" className="validate" />
                                 <label htmlFor="next_of_kin_email">Next of kin email</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.next_of_kin_phone} id="next_of_kin_phone" type="tel" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.next_of_kin_phone} id="next_of_kin_phone" type="tel" className="validate" required />
                                 <label htmlFor="next_of_kin_phone">Next of kin Phone</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.next_of_kin_province} id="next_of_kin_province" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.next_of_kin_province} id="next_of_kin_province" type="text" className="validate" required />
                                 <label htmlFor="next_of_kin_province">Next of kin Province</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.next_of_kin_town} id="next_of_kin_town" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.next_of_kin_town} id="next_of_kin_town" type="text" className="validate" required />
                                 <label htmlFor="next_of_kin_town">Next of kin Town</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.next_of_kin_physical_address} id="next_of_kin_physical_address" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.next_of_kin_physical_address} id="next_of_kin_physical_address" type="text" className="validate" required />
                                 <label htmlFor="next_of_kin_physical_address">Next of kin Physical Address</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.next_of_kin_postal_address} id="next_of_kin_postal_address" type="text" className="validate" />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.next_of_kin_postal_address} id="next_of_kin_postal_address" type="text" className="validate" />
                                 <label htmlFor="next_of_kin_postal_address">Next of kin Postal Address</label>
                             </div>
                             <button className="btn">Proceed</button>
@@ -159,7 +204,7 @@ class ApplicationPage6 extends React.Component {
                     <RenderResponse isLoading={this.state.loading} response={response} />
                 </div>
                 <div className="card-action">
-                <Link className="btn" to="/">Exit</Link>
+                <Link className="btn" to="/">Back</Link>
                 </div>
             </div>
         );

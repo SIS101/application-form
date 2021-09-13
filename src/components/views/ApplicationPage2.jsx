@@ -4,6 +4,7 @@ import FormData from 'form-data';
 import RenderResponse from '../RenderResponse';
 import axios from 'axios';
 import { baseUrl } from '../custom_modules/api_config';
+import M from 'materialize-css/dist/js/materialize';
 
 class ApplicationPage2 extends React.Component {
     constructor(props) {
@@ -21,6 +22,48 @@ class ApplicationPage2 extends React.Component {
 
         this.auth = sessionStorage.getItem('api_token') || null;
         this.response = null;
+        this.application = null;
+    }
+
+    getApplication(){
+        var p = this;
+        p.setState({loading: true});
+        axios.get(baseUrl+'/application/get?api_token='+this.auth).then(function(response){
+            p.application = response.data;
+            p.setState({response: true,loading: false});
+            p.loadApplication();
+        }).catch(function(error){
+            if(error.response){
+                p.application = error.response.data;
+                p.setState({response: true,loading: false});
+                p.setState({loading: false});
+            } else if(error.request){
+                alert(error.message);
+                p.setState({loading: false});
+            } else {
+                alert(error.message);
+                p.setState({loading: false});
+            }
+        });
+    }
+
+    loadApplication(){
+        if(this.application){
+            if(this.application.success){
+                this.setState({
+                    province: this.application.data.province,
+                    town: this.application.data.town,
+                    physical_address: this.application.data.physical_address,
+                    postal_address: this.application.data.postal_address,
+                    phone: this.application.data.phone
+                });
+            }
+        }
+    }
+
+    componentDidMount(){
+        this.getApplication();
+        M.updateTextFields();
     }
 
     handle_submit(event){
@@ -116,23 +159,23 @@ class ApplicationPage2 extends React.Component {
                     <form onSubmit={this.handle_submit}>
                         <div className="row">
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.province} id="province" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.province} id="province" type="text" className="validate" required />
                                 <label htmlFor="province">Province</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.town} id="town" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.town} id="town" type="text" className="validate" required />
                                 <label htmlFor="town">Town</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.physical_address} id="physical_address" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.physical_address} id="physical_address" type="text" className="validate" required />
                                 <label htmlFor="physical_address">Physical Address</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.postal_address} id="postal_address" type="text" className="validate" />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.postal_address} id="postal_address" type="text" className="validate" />
                                 <label htmlFor="postal_address">Postal Address</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.phone} id="phone" type="tel" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.phone} id="phone" type="tel" className="validate" required />
                                 <label htmlFor="phone">Phone</label>
                             </div>
                             <button className="btn">Proceed</button>
@@ -141,7 +184,7 @@ class ApplicationPage2 extends React.Component {
                     <RenderResponse isLoading={this.state.loading} response={response} />
                 </div>
                 <div className="card-action">
-                <Link className="btn" to="/">Exit</Link>
+                <Link className="btn" to="/">Back</Link>
                 </div>
             </div>
         );

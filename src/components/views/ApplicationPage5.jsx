@@ -138,7 +138,7 @@ class ApplicationPage5 extends React.Component {
                     <RenderResponse isLoading={this.state.loading} response={response} />
                 </div>
                 <div className="card-action">
-                <Link className="btn" to="/">Exit</Link>
+                <Link className="btn" to="/">Back</Link>
                 </div>
             </div>
         );

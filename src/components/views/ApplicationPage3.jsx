@@ -4,6 +4,7 @@ import FormData from 'form-data';
 import RenderResponse from '../RenderResponse';
 import axios from 'axios';
 import { baseUrl } from '../custom_modules/api_config';
+import M from 'materialize-css/dist/js/materialize';
 
 class ApplicationPage3 extends React.Component {
     constructor(props) {
@@ -20,6 +21,47 @@ class ApplicationPage3 extends React.Component {
 
         this.auth = sessionStorage.getItem('api_token') || null;
         this.response = null;
+        this.application = null;
+    }
+
+    getApplication(){
+        var p = this;
+        p.setState({loading: true});
+        axios.get(baseUrl+'/application/get?api_token='+this.auth).then(function(response){
+            p.application = response.data;
+            p.setState({response: true,loading: false});
+            p.loadApplication();
+        }).catch(function(error){
+            if(error.response){
+                p.application = error.response.data;
+                p.setState({response: true,loading: false});
+                p.setState({loading: false});
+            } else if(error.request){
+                alert(error.message);
+                p.setState({loading: false});
+            } else {
+                alert(error.message);
+                p.setState({loading: false});
+            }
+        });
+    }
+
+    loadApplication(){
+        if(this.application){
+            if(this.application.success){
+                this.setState({
+                    admission_type: this.application.data.admission_type,
+                    first_choice: this.application.data.first_choice,
+                    second_choice: this.application.data.second_choice,
+                    third_choice: this.application.data.third_choice
+                });
+            }
+        }
+    }
+
+    componentDidMount(){
+        this.getApplication();
+        M.updateTextFields();
     }
 
     handle_submit(event){
@@ -111,19 +153,19 @@ class ApplicationPage3 extends React.Component {
                     <form onSubmit={this.handle_submit}>
                         <div className="row">
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.admission_type} id="admission_type" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.admission_type} id="admission_type" type="text" className="validate" required />
                                 <label htmlFor="admission_type">Admission Type</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.first_choice} id="first_choice" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.first_choice} id="first_choice" type="text" className="validate" required />
                                 <label htmlFor="first_choice">First Choice</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.second_choice} id="second_choice" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.second_choice} id="second_choice" type="text" className="validate" required />
                                 <label htmlFor="second_choice">Second Choice</label>
                             </div>
                             <div className="input-field col s12">
-                                <input onChange={this.handle_change} value={this.state.third_choice} id="third_choice" type="text" className="validate" required />
+                                <input placeholder="..." onChange={this.handle_change} value={this.state.third_choice} id="third_choice" type="text" className="validate" required />
                                 <label htmlFor="third_choice">Third Choice</label>
                             </div>
                             <button className="btn">Proceed</button>
@@ -132,7 +174,7 @@ class ApplicationPage3 extends React.Component {
                     <RenderResponse isLoading={this.state.loading} response={response} />
                 </div>
                 <div className="card-action">
-                <Link className="btn" to="/">Exit</Link>
+                <Link className="btn" to="/">Back</Link>
                 </div>
             </div>
         );
