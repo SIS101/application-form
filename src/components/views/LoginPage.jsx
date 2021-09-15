@@ -69,7 +69,7 @@ class LoginPage extends React.Component {
     render(){
         var response = this.state.response;
         return(
-            <div className="card">
+            <div className="card indigo-text darken-4">
                 <div className="card-content">
                     <span className="card-title">Login</span>
                     <form onSubmit={this.handle_submit}>
@@ -82,13 +82,13 @@ class LoginPage extends React.Component {
                                 <input onChange={this.handle_change} value={this.state.password} id="password" type="password" className="validate" />
                                 <label htmlFor="password">Create Password</label>
                             </div>
-                            <button className="btn">Login</button>
+                            <button className="btn indigo darken-4">Login</button>
                         </div>
                     </form>
                     <RenderResponse isLoading={this.state.loading} response={response} />
                 </div>
                 <div className="card-action">
-                    <Link to="/" className="btn">Exit</Link>
+                    <Link to="/" className="btn indigo darken-4">Exit</Link>
                 </div>
             </div>
         );

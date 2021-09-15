@@ -74,7 +74,7 @@ class ApplicationInitialization extends React.Component {
     render(){
         var response = this.response;
         return(
-            <div className="card">
+            <div className="card indigo-text darken-4">
                 <div className="card-content">
                     <span className="card-title">Online Application Initialization</span>
                     <form onSubmit={this.handle_submit}>
@@ -91,13 +91,13 @@ class ApplicationInitialization extends React.Component {
                                 <input onChange={this.handle_change} value={this.state.password} id="password" type="password" className="validate" />
                                 <label htmlFor="password">Create Password</label>
                             </div>
-                            <button className="btn">Proceed</button>
+                            <button className="btn indigo darken-4">Proceed</button>
                         </div>
                     </form>
                     <RenderResponse isLoading={this.loading} response={response} />
                 </div>
                 <div className="card-action">
-                <Link className="btn" to="/">Exit</Link>
+                <Link className="btn indigo darken-4" to="/">Exit</Link>
                 </div>
             </div>
         );

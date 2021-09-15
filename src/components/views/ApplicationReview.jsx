@@ -67,7 +67,7 @@ class Review extends React.Component {
     render(){
         if(this.state.loading){
             return (
-                <div className="card">
+                <div className="card indigo-text darken-4">
                     <div className="card-content">
                         <span className="card-title">Online Application Review</span>
                         <center>
@@ -87,7 +87,7 @@ class Review extends React.Component {
                         </center>
                     </div>
                     <div className="card-action">
-                    <Link className="btn" to="/">Exit</Link>
+                    <Link className="btn indigo darken-4" to="/">Exit</Link>
                     </div>
                 </div>
             );
@@ -96,7 +96,7 @@ class Review extends React.Component {
                 if(this.response){
                     if(this.response.success){
                         return(
-                            <div className="card">
+                            <div className="card indigo-text darken-4">
                                 <div className="card-content">
                                     <span className="card-title">Online Application Review</span>
 
@@ -117,7 +117,7 @@ class Review extends React.Component {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <Link to="/page/1" className="btn">Edit</Link>
+                                    <Link to="/page/1" className="btn indigo darken-4">Edit</Link>
                                     <hr />
 
                                     <table className="striped">
@@ -137,7 +137,7 @@ class Review extends React.Component {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <Link to="/page/2" className="btn">Edit</Link><hr />
+                                    <Link to="/page/2" className="btn indigo darken-4">Edit</Link><hr />
 
                                     <table className="striped">
                                         <caption>Admission</caption>
@@ -156,7 +156,7 @@ class Review extends React.Component {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <Link to="/page/3" className="btn">Edit</Link><hr />
+                                    <Link to="/page/3" className="btn indigo darken-4">Edit</Link><hr />
 
                                     <table className="striped">
                                         <caption>Grade 12 Results</caption>
@@ -183,7 +183,7 @@ class Review extends React.Component {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <Link to="/page/4" className="btn">Edit</Link>
+                                    <Link to="/page/4" className="btn indigo darken-4">Edit</Link>
                                     <hr />
 
                                     <table className="striped">
@@ -203,7 +203,7 @@ class Review extends React.Component {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <Link to="/page/5" className="btn">Edit</Link><hr />
+                                    <Link to="/page/5" className="btn indigo darken-4">Edit</Link><hr />
 
                                     <table className="striped">
                                         <caption>Next of kin</caption>
@@ -222,30 +222,30 @@ class Review extends React.Component {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <Link to="/page/6" className="btn">Edit</Link><hr />
-                                    <center><button onClick={this.submitApplication} className="btn">Submit Application</button></center>
+                                    <Link to="/page/6" className="btn indigo darken-4">Edit</Link><hr />
+                                    <center><button onClick={this.submitApplication} className="btn indigo darken-4">Submit Application</button></center>
                                 </div>
                                 <div className="card-action">
-                                <Link className="btn" to="/">Back</Link>
+                                <Link className="btn indigo darken-4" to="/">Back</Link>
                                 </div>
                             </div>
                         );
                     } else {
                         return(
-                            <div className="card">
+                            <div className="card indigo-text darken-4">
                                 <div className="card-content">
                                     <span className="card-title">Online Application Review</span>
                                     <p>{this.response.message}</p>
                                 </div>
                                 <div className="card-action">
-                                <Link className="btn" to="/">Exit</Link>
+                                <Link className="btn indigo darken-4" to="/">Exit</Link>
                                 </div>
                             </div>
                         );
                     }
                 } else {
                     return(
-                        <div className="card">
+                        <div className="card indigo-text darken-4">
                             <div className="card-content">
                                 <span className="card-title">Online Application Review</span>
                                 <ul className="collapsible">
@@ -256,20 +256,20 @@ class Review extends React.Component {
                                 </ul>
                             </div>
                             <div className="card-action">
-                            <Link className="btn" to="/">Exit</Link>
+                            <Link className="btn indigo darken-4" to="/">Exit</Link>
                             </div>
                         </div>
                     );
                 }
             } else {
                 return(
-                    <div className="card">
+                    <div className="card indigo-text darken-4">
                         <div className="card-content">
                             <span className="card-title">Online Application Review</span>
-                            <Link className="btn" to='/login'>Login</Link>
+                            <Link className="btn indigo darken-4" to='/login'>Login</Link>
                         </div>
                         <div className="card-action">
-                        <Link className="btn" to="/">Exit</Link>
+                        <Link className="btn indigo darken-4" to="/">Exit</Link>
                         </div>
                     </div>
                 );

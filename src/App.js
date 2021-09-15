@@ -20,7 +20,7 @@ class App extends React.Component{
 
   render(){
     return (
-      <BrowserRouter>
+      <BrowserRouter basename="/online-application">
         <nav className="indigo darken-4">
           <div className="nav-wrapper">
             <a href="https://kihsr.ac.zm" className="brand-logo center"><img src={logo} width={100} alt="logo" /></a>

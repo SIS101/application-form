@@ -135,19 +135,19 @@ class ApplicationPage3 extends React.Component {
         var response = this.state.response;
         if(this.auth === null){
             return(
-                <div className="card">
+                <div className="card indigo-text darken-4">
                     <div className="card-content">
                         <span className="card-title">Online Application Admission</span>
-                        <Link className="btn" to='/login'>Login</Link>
+                        <Link className="btn indigo darken-4" to='/login'>Login</Link>
                     </div>
                     <div className="card-action">
-                    <Link className="btn" to="/">Exit</Link>
+                    <Link className="btn indigo darken-4" to="/">Exit</Link>
                     </div>
                 </div>
             );
         }
         return(
-            <div className="card">
+            <div className="card indigo-text darken-4">
                 <div className="card-content">
                     <span className="card-title">Online Application Admission</span>
                     <form onSubmit={this.handle_submit}>
@@ -168,13 +168,13 @@ class ApplicationPage3 extends React.Component {
                                 <input placeholder="..." onChange={this.handle_change} value={this.state.third_choice} id="third_choice" type="text" className="validate" required />
                                 <label htmlFor="third_choice">Third Choice</label>
                             </div>
-                            <button className="btn">Proceed</button>
+                            <button className="btn indigo darken-4">Proceed</button>
                         </div>
                     </form>
                     <RenderResponse isLoading={this.state.loading} response={response} />
                 </div>
                 <div className="card-action">
-                <Link className="btn" to="/">Back</Link>
+                <Link className="btn indigo darken-4" to="/">Back</Link>
                 </div>
             </div>
         );
