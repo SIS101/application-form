@@ -1,2 +1,2 @@
-export const baseUrl = 'http://localhost:8000/api';
-export const serverUrl = 'http://localhost:8000';
+export const baseUrl = '/public-api/public/api';
+export const serverUrl = '/public-api/public';
