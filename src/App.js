@@ -14,12 +14,18 @@ import ApplicationPage4 from './components/views/ApplicationPage4';
 import ApplicationPage5 from './components/views/ApplicationPage5';
 import ApplicationPage6 from './components/views/ApplicationPage6';
 import Review from './components/views/ApplicationReview';
+import logo from './logoWhite.png';
 
 class App extends React.Component{
 
   render(){
     return (
       <BrowserRouter>
+        <nav className="indigo darken-4">
+          <div className="nav-wrapper">
+            <a href="https://kihsr.ac.zm" className="brand-logo center"><img src={logo} width={100} alt="logo" /></a>
+          </div>
+        </nav>
         <div className="container">
           <Switch>
             <Route exact path='/' component={FrontPage} />
